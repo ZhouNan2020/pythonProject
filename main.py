@@ -19,6 +19,7 @@ class MyApp():
         self.file = None
         self.secret = st.secrets["api"]["api"]
         self.API = "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"
+        self.api = self.secret
         
 
 
@@ -99,12 +100,13 @@ class MyApp():
     
     def output(self):
         if st.button('执行'):
+            with OpenAI_API(self.api):
 
-            output = open_ai_response(self.prompt, self.API)
-
-            st.write(output)
-            st.markdown(output)
-
+                output = open_ai_response(self.prompt, self.API)
+    
+                st.write(output)
+                st.markdown(output)
+    
 
 
 
