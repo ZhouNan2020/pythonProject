@@ -4,39 +4,74 @@ from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
 
 
-st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-        )
+class MyApp():
+    def __init__(self):
+        self.prompt = None
+        self.currentdf = None
+        self.sheet_list = None
+        self.sheet = None
+        
+        self.data = None
+        self.title = "PandasAI"
+        self.file = None
+        self.secret = st.secrets["api"]["api"]
+        self.API = "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"
+        self.llm = OpenAI(api_token=self.secret)
+        self.pandas_ai = PandasAI(self.llm)
 
-st.write(f'# Welcome to ChatData! 👋')
-st.subheader('Chat anything with your Data!')
+    def run(self):
+        self.uploadfile()
+        if self.file is not None:
+            
+            
+            self.df()
+            self.prom()
+            self.output()
 
-st.markdown(
-    """
-     **This app using GPT Model,** so make sure don't upload any confidential data here.
+    def uploadfile(self):
+        self.file = st.file_uploader('上传文件', type=['xls', 'xlsx'])
+
+        if self.file is not None:
+            self.data = pd.ExcelFile(self.file)
+            self.data_dict = {}
+            for sheet in self.data.sheet_names:
+                self.data_dict[sheet] = self.data.parse(sheet)
+
+
+    def sheetselect(self):
+        self.sheet_list = list(self.data_dict.keys())
+        self.sheet = st.selectbox('选择sheet', self.sheet_list)
+        return self.sheet
+
+    def df(self):
+        self.sheetselect()
+        self.currentdf = self.data_dict[self.sheet]
+        st.write(self.currentdf)
+
+
     
-    This App created by Rizqiansyah!
-    """
-    )
+        
+    def prom(self):
+        problem = st.text_input('输入问题')
+        self.prompt = (
+            "背景：使用我提供的dataframe。"
+            "任务：根据我提供的指令对dataframe进行操作。"
+            "信息：一般情况下跳过NaN值，除非我特别要求。"
+            "情境：我的问题通常与筛选数据或描述性统计有关。"
+            "指令：{problem}。"
+            "执行：尽可能以markdown表格输出结果，并且尽可能输出完整的结果。你的描述性语句要使用中文。".format(
+                problem=problem))
+    def output(self):
+        if st.button('执行'):
 
-OPENAI_API_KEY = st.text_input(label="Add Your OPENAI API KEY", value="")
-st.markdown("If you don't know how to get an OPEN API Key. [Check this blog!](https://www.howtogeek.com/885918/how-to-get-an-openai-api-key/).")
+            output = self.pandas_ai.run(self.currentdf, prompt=self.prompt)
 
-if OPENAI_API_KEY != "":
-    llm = OpenAI(api_token=OPENAI_API_KEY)
-    pandas_ai = PandasAI(llm)
-    
-    st.subheader('Upload your Data')
-    file_upload = st.file_uploader(label="Choose a CSV file")
+            st.write(output)
+            st.markdown(output)
 
 
-    if file_upload is not None:
-        st.subheader('Sample Data')
-        data = pd.read_csv(file_upload)
-        st.dataframe(data.sample(10))
-        st.subheader('Question')
-        question = st.text_input(label="Add questions to your data", value="")
-        if question != "":
-            st.subheader('Result:')
-            st.write(pandas_ai.run(data, prompt=question))
+
+
+if __name__ == '__main__':
+    app = MyApp()
+    app.run()
