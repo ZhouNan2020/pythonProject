@@ -7,10 +7,7 @@ from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
 # 导入streamlit
 import streamlit as st
-import os
 
-# 使用 pip 安装 openpyxl
-os.system("pip install openpyxl")
 
 
 
