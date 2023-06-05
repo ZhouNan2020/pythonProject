@@ -33,7 +33,7 @@ if OPENAI_API_KEY != "":
 
     if file_upload is not None:
         st.subheader('Sample Data')
-        data = pd.read_csv(file_upload)
+        data = pd.ExcelFile(file_upload)
         st.dataframe(data.sample(10))
         st.subheader('Question')
         question = st.text_input(label="Add questions to your data", value="")
