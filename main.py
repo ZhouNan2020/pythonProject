@@ -3,6 +3,7 @@ import re
 
 import pandas as pd
 import numpy as np
+import pandasai
 # 导入pandasai
 from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
