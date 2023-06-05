@@ -2,3 +2,4 @@ pandas
 pandasai
 streamlit
 openai
+openpyxl==3.0.10
