@@ -9,6 +9,13 @@ from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
 # 导入streamlit
 import streamlit as st
+import os
+
+package_name = "pandasai"  # 替换为要安装的包的名称
+
+# 使用 pip 安装包
+install_command = f"pip install {package_name}"
+os.system(install_command)
 
 
 class MyApp():
