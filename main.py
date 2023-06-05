@@ -1,9 +1,13 @@
 # 导入pandas和numpy库
-import re
+package_name = "pandasai"  # 替换为要安装的包的名称
+
+# 使用 pip 安装包
+install_command = f"pip install {package_name}"
+os.system(install_command)
 
 import pandas as pd
 import numpy as np
-import pandasai
+
 # 导入pandasai
 from pandasai import PandasAI
 from pandasai.llm.openai import OpenAI
@@ -11,11 +15,6 @@ from pandasai.llm.openai import OpenAI
 import streamlit as st
 import os
 
-package_name = "pandasai"  # 替换为要安装的包的名称
-
-# 使用 pip 安装包
-install_command = f"pip install {package_name}"
-os.system(install_command)
 
 
 class MyApp():
