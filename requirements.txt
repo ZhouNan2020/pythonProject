@@ -1,7 +1,9 @@
 openai==0.27.7
-pandasai==0.3.0
+#pandasai==0.3.0
 streamlit==1.22.0
 openpyxl==3.0.9
 pandas==1.4.2
+PandasAI==0.3.0
+
 
 
