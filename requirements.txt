@@ -3,3 +3,17 @@ streamlit==1.22.0
 openai==0.27.7
 openpyxl==3.0.10
 pandasai==0.3.0
+
+
+matplotlib
+
+
+seaborn
+numpy
+statsmodels
+pydeck
+plotly.express
+folium
+streamlit_folium
+pillow
+
