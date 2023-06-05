@@ -1,10 +1,3 @@
-import os
-# 导入pandas和numpy库
-package_name = "pandasai"  # 替换为要安装的包的名称
-
-# 使用 pip 安装包
-install_command = f"pip install {package_name}"
-os.system(install_command)
 
 import pandas as pd
 import numpy as np
