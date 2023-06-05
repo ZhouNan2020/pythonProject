@@ -27,10 +27,8 @@ class MyApp():
         self.file = st.file_uploader('上传文件', type=['xls', 'xlsx'])
 
         if self.file is not None:
-            self.data = pd.ExcelFile(self.file)
-            self.data_dict = {}
-            for sheet in self.data.sheet_names:
-                self.data_dict[sheet] = self.data.parse(sheet)
+            self.data_dict = pd.ExcelFile(self.file).parse(sheet_name=None)
+            
 
 
     def sheetselect(self):
