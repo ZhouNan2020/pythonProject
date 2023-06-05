@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from api import OpenAI_API, open_ai_response
-from question_bank import question_bank
+
 
 
 
