@@ -1,8 +1,13 @@
-import streamlit as st
-import pandas as pd
-from api import OpenAI_API, open_ai_response
-from question_bank import question_bank
 
+
+import pandas as pd
+import numpy as np
+
+# 导入pandasai
+from pandasai import PandasAI
+from pandasai.llm.openai import OpenAI
+# 导入streamlit
+import streamlit as st
 
 
 
@@ -19,39 +24,8 @@ class MyApp():
         self.file = None
         self.secret = st.secrets["api"]["api"]
         self.API = "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"
-        self.api = self.secret
-        
-
-
-    def page_config():
-        st.set_page_config(page_title="ChatGPT Data Assistant", page_icon="📊", layout="centered")
-        hide_menu_style = "<style> footer {visibility: hidden;} </style>"
-        st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-
-    def sidebar():
-        st.sidebar.title('About')
-        st.sidebar.info('''
-        This app uses the [OpenAI API](https://beta.openai.com/) to generate responses to questions about data files.
-        ''')
-        st.sidebar.title('Guide')
-        st.sidebar.info('''
-        1. 可以上传csv或者excel文件
-        2. Select a prompt from the dropdown menu.
-        3. Click the "Generate response" button.
-        ''')
-        st.text(" ")
-        st.sidebar.markdown(
-    """
-    <a href="https://twitter.com/cameronjoejones" target="_blank" style="text-decoration: none;">
-        <div style="display: flex; align-items: center;">
-            <img src="https://abs.twimg.com/icons/apple-touch-icon-192x192.png" width="30" height="30">
-            <span style="font-size: 16px; margin-left: 5px;">Follow me on Twitter</span>
-        </div>
-    </a>
-    """, unsafe_allow_html=True
-    )
-    
+        self.llm = OpenAI(api_token=self.secret)
+        self.pandas_ai = PandasAI(self.llm)
 
     def run(self):
         self.uploadfile()
@@ -95,18 +69,14 @@ class MyApp():
             "指令：{problem}。"
             "执行：尽可能以markdown表格输出结果，并且尽可能输出完整的结果。你的描述性语句要使用中文。".format(
                 problem=problem))
-    
-    
-    
     def output(self):
         if st.button('执行'):
-            with OpenAI_API(self.api):
 
-                output = open_ai_response(self.prompt, self.API)
-    
-                st.write(output)
-                st.markdown(output)
-    
+            output = self.pandas_ai.run(self.currentdf, prompt=self.prompt)
+
+            st.write(output)
+            st.markdown(output)
+
 
 
 
