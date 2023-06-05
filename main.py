@@ -1,3 +1,4 @@
+import os
 # 导入pandas和numpy库
 package_name = "pandasai"  # 替换为要安装的包的名称
 
